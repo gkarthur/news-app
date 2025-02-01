@@ -1,0 +1,43 @@
+<div class="container">
+  <h2 class="mb-4">Articles</h2>
+
+  <div class="row">
+    <div class="col-md-12" *ngFor="let article of articles">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">
+            <a [routerLink]="['/articles', article.id]" class="text-decoration-none text-dark">
+              {{ article.title }}
+            </a>
+          </h5>
+          <p class="card-text">{{ article.content | slice:0:200 }}...</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <p class="card-text mb-0">
+              <small class="text-muted">By {{ article.author?.username }} on {{ article.createdAt | date }}</small>
+            </p>
+            <div class="btn-group">
+              <a [routerLink]="['/articles', article.id]" class="btn btn-primary btn-sm me-2">Read More</a>
+              <button class="btn btn-danger btn-sm" *ngIf="isAdmin" (click)="deleteArticle(article.id)">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center mt-4" *ngIf="totalPages > 1">
+    <nav>
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 0">
+          <button class="page-link" (click)="previousPage()">Previous</button>
+        </li>
+        <li class="page-item">
+          <span class="page-link">Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages - 1">
+          <button class="page-link" (click)="nextPage()">Next</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

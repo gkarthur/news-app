@@ -1,0 +1,32 @@
+<div class="container mt-4" *ngIf="article">
+  <div class="article-container">
+    <!-- Article Header -->
+    <div class="article-header mb-4">
+      <h1 class="article-title">{{article.title}}</h1>
+      <div class="article-meta text-muted">
+        <span>By {{article.author}}</span>
+        <span class="mx-2">•</span>
+        <span>{{article.createdAt | date:'medium'}}</span>
+      </div>
+    </div>
+
+    <!-- Article Content -->
+    <div class="article-content mb-5">
+      <p [innerHTML]="article.content"></p>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-container">
+      <app-comments [articleId]="article.id"></app-comments>
+    </div>
+  </div>
+</div>
+
+<!-- Loading State -->
+<div class="container mt-4" *ngIf="!article">
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>

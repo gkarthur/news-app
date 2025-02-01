@@ -1,0 +1,74 @@
+<div class="comments-section">
+  <h3>Comments</h3>
+
+  <!-- Comment Form -->
+  <div class="comment-form mb-4" *ngIf="isLoggedIn">
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <textarea
+          class="form-control"
+          formControlName="content"
+          rows="3"
+          placeholder="Write your comment..."
+          [class.is-invalid]="commentForm.get('content')?.invalid && commentForm.get('content')?.touched"
+        ></textarea>
+        <div class="invalid-feedback" *ngIf="commentForm.get('content')?.errors?.['required']">
+          Comment content is required.
+        </div>
+        <div class="invalid-feedback" *ngIf="commentForm.get('content')?.errors?.['maxlength']">
+          Comment must be less than 1000 characters.
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="commentForm.invalid || loading"
+      >
+        {{ loading ? 'Posting...' : 'Post Comment' }}
+      </button>
+    </form>
+  </div>
+
+  <!-- Login Message -->
+  <div class="alert alert-info" *ngIf="!isLoggedIn">
+    Please <a routerLink="/login">login</a> to post comments.
+  </div>
+
+  <!-- Error Message -->
+  <div class="alert alert-danger" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="text-center my-3" *ngIf="loading">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Comments List -->
+  <div class="comments-list" *ngIf="!loading">
+    <div class="alert alert-info" *ngIf="comments.length === 0">
+      No comments yet. Be the first to comment!
+    </div>
+
+    <div class="comment-item card mb-3" *ngFor="let comment of comments">
+      <div class="card-body">
+        <p class="card-text">{{ comment.content }}</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <small class="text-muted">
+            By {{ comment.username }} on {{ comment.createdAt | date:'medium' }}
+          </small>
+          <button
+            class="btn btn-danger btn-sm"
+            *ngIf="canDeleteComment(comment)"
+            (click)="deleteComment(comment.id!)"
+            [disabled]="loading"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

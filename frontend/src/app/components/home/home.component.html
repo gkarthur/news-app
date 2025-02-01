@@ -1,0 +1,16 @@
+<div class="container text-center">
+  <div class="py-5">
+    <h1 class="display-4">Welcome to News App</h1>
+    <p class="lead" *ngIf="!isLoggedIn">
+      Please <a routerLink="/login">login</a> or <a routerLink="/register">register</a> to get started.
+    </p>
+    <p class="lead" *ngIf="isLoggedIn">
+      Welcome back, {{ username }}!
+    </p>
+    <hr class="my-4">
+    <p>Read the latest articles or create your own if you have editor privileges.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" routerLink="/articles" role="button">Browse Articles</a>
+    </p>
+  </div>
+</div>
